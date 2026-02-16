@@ -21,14 +21,20 @@ def get_upcoming_birthdays(users):
 def get_congratulation_date(birthday: str):
     birthday = datetime.strptime(birthday, "%Y.%m.%d")
     today = datetime.today().date();
+    #today = datetime.strptime("2026.12.30", "%Y.%m.%d").date();
 
     birthday_this_year = date(today.year, birthday.month, birthday.day)
-    if(today <= birthday_this_year) and ((today + timedelta(days=7)) >= birthday_this_year):
-        if birthday_this_year.weekday() >= 5: 
-            days_to_add = 7 - birthday_this_year.weekday()
-            return birthday_this_year + timedelta(days=days_to_add)
+    if birthday_this_year < today:
+        birthday_next = date(today.year + 1, birthday.month, birthday.day)
+    else:
+        birthday_next = birthday_this_year;
+
+    if(today <= birthday_next) and ((today + timedelta(days=7)) >= birthday_next):
+        if birthday_next.weekday() >= 5: 
+            days_to_add = 7 - birthday_next.weekday()
+            return birthday_next + timedelta(days=days_to_add)
         else:
-            return birthday_this_year
+            return birthday_next
             
     else:
         return False
